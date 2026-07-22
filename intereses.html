@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Intereses Judiciales e Indexación RD · LexTools</title>
+    <meta name="description" content="Liquidación de sentencias con intereses moratorios (1.5% mensual judicial) e indexación por inflación de capital en República Dominicana.">
+    <meta name="keywords" content="intereses de demora, indexación monetaria, tasa judicial RD, liquidación sentencia">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Calculadora de Intereses Judiciales e Indexación RD · LexTools">
+    <meta property="og:description" content="Liquidación de sentencias con intereses moratorios (1.5% mensual judicial) e indexación por inflación de capital en República Dominicana.">
+    <meta property="og:url" content="./intereses.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calculadora de Intereses Judiciales e Indexación RD · LexTools">
+    <meta name="twitter:description" content="Liquidación de sentencias con intereses moratorios (1.5% mensual judicial) e indexación por inflación de capital en República Dominicana.">
+
+    <link rel="canonical" href="./intereses.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-intereses">
+                    <div class="tool-header">
+                        <h2>Calculadora de Intereses de Demora e Indexación</h2>
+                        <p>Liquidación de sentencias y créditos con cálculo de intereses moratorios (tasa judicial y personalizadas) y reajuste por inflación del capital.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="int-capital">Capital Reclamado (RD$):</label>
+                                <input type="number" id="int-capital" placeholder="Ej: 100000" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="int-inicio">Fecha de Inicio (Mora/Demanda):</label>
+                                <input type="date" id="int-inicio" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="int-fin">Fecha de Fin (Liquidación/Pago):</label>
+                                <input type="date" id="int-fin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="int-tipo-tasa">Tipo de Tasa de Interés:</label>
+                                <select id="int-tipo-tasa">
+                                    <option value="judicial">Tasa Judicial Ordinaria (1.5% mensual / 18% anual)</option>
+                                    <option value="anual-manual">Tasa Anual Personalizada (%)</option>
+                                    <option value="mensual-manual">Tasa Mensual Personalizada (%)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="int-tasa-manual-container" style="display:none;">
+                                <label for="int-tasa-valor">Tasa (%):</label>
+                                <input type="number" id="int-tasa-valor" step="0.01" value="12">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="int-indexar">
+                                    <span>Aplicar Indexación (Reajuste por Inflación)</span>
+                                </label>
+                            </div>
+                            <div class="form-group form-full-width" id="int-inflacion-container" style="display:none;">
+                                <label for="int-inflacion-valor">Tasa de Inflación Anual Estimada (%):</label>
+                                <input type="number" id="int-inflacion-valor" step="0.1" value="4.5">
+                            </div>
+                        </div>
+
+                        <button id="btn-calcular-intereses" class="btn-primary btn-accent">
+                            Calcular Intereses y Reajustes
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">Optimiza tus Cuentas Judiciales</span>
+                        </div>
+
+                        <div id="intereses-results" class="results-card">
+                            <h3>Liquidación de Capital e Intereses</h3>
+                            <div class="result-main">
+                                <div class="result-value-box">
+                                    <div class="result-label">Total Liquidado a la Fecha</div>
+                                    <div id="res-int-total" class="result-value">-</div>
+                                </div>
+                            </div>
+                            <ul class="result-detail-list">
+                                <li><span class="result-detail-label">Capital Original:</span><span id="res-int-capital" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Tiempo Transcurrido:</span><span id="res-int-dias" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Intereses de Demora:</span><span id="res-int-intereses" class="result-detail-val">-</span></li>
+                                <li id="res-int-indexacion-container" style="display:none; flex-direction:column; align-items:flex-start; gap:4px;">
+                                    <div style="display:flex; justify-content:space-between; width:100%;">
+                                        <span class="result-detail-label">Indexación por Inflación:</span>
+                                        <span id="res-int-indexacion" class="result-detail-val">-</span>
+                                    </div>
+                                    <span id="res-int-indexacion-desc" style="color: var(--text-muted); font-size: 0.75rem;"></span>
+                                </li>
+                                <li><span class="result-detail-label">Tasa Aplicada:</span><span id="res-int-tasa-desc" class="result-detail-val" style="font-size: 0.85rem; color: var(--text-muted);">-</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" aria-current="page">
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Calculadora de Intereses de Demora e Indexación",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Liquidación de sentencias con intereses moratorios (1.5% mensual judicial) e indexación por inflación de capital en República Dominicana.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/intereses.js"></script>
+</body>
+</html>

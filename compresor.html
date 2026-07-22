@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compresor de PDF para Tribunales · LexTools RD</title>
+    <meta name="description" content="Reduce el peso de PDFs manteniendo legibilidad. Optimizado para plataformas del Poder Judicial y Registro Inmobiliario de la RD.">
+    <meta name="keywords" content="comprimir PDF, reducir PDF, Poder Judicial RD, Registro Inmobiliario">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Compresor de PDF para Tribunales · LexTools RD">
+    <meta property="og:description" content="Reduce el peso de PDFs manteniendo legibilidad. Optimizado para plataformas del Poder Judicial y Registro Inmobiliario de la RD.">
+    <meta property="og:url" content="./compresor.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Compresor de PDF para Tribunales · LexTools RD">
+    <meta name="twitter:description" content="Reduce el peso de PDFs manteniendo legibilidad. Optimizado para plataformas del Poder Judicial y Registro Inmobiliario de la RD.">
+
+    <link rel="canonical" href="./compresor.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-compresor">
+                    <div class="tool-header">
+                        <h2>Compresor de PDFs (Optimizado para Tribunales)</h2>
+                        <p>Comprime el peso de tus archivos PDF reduciendo la escala y calidad de imagen en local para poder cargarlos en las plataformas del Poder Judicial y del Registro Inmobiliario de RD.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label>Cargar Archivo PDF Pesado:</label>
+                            <div id="compress-dropzone" class="dropzone-container">
+                                <div class="dropzone-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h6v6M20 10h-6V4"/></svg></div>
+                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
+                                <input type="file" id="compress-file-input" accept="application/pdf" style="display:none;">
+                            </div>
+                            <div id="compress-file-info" class="file-info-box">
+                                <div>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                                    <span id="compress-file-name" class="file-name">-</span>
+                                </div>
+                                <button id="btn-remove-compress-file" class="btn-remove-file">Remover</button>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group form-full-width">
+                                <label for="compress-nivel">Nivel de Compresión:</label>
+                                <select id="compress-nivel">
+                                    <option value="medium">Compresión Estándar / Media (Recomendado)</option>
+                                    <option value="high">Compresión Alta / Máxima</option>
+                                    <option value="low">Compresión Ligera</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button id="btn-compress-pdf" class="btn-primary btn-accent" disabled>
+                            Comprimir PDF para Tribunales
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">¿Excedes el límite de 10MB?</span>
+                        </div>
+
+                        <div id="compress-results-box" class="results-card">
+                            <h3>Resultados de la Optimización</h3>
+                            <div class="result-main">
+                                <div class="result-value-box">
+                                    <div class="result-label">Porcentaje de Ahorro</div>
+                                    <div id="res-comp-ahorro" class="result-value">-</div>
+                                </div>
+                                <div id="res-comp-nota" style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;"></div>
+                            </div>
+                            <ul class="result-detail-list">
+                                <li><span class="result-detail-label">Tamaño Original:</span><span id="res-comp-orig" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Tamaño Comprimido:</span><span id="res-comp-final" class="result-detail-val">-</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" aria-current="page">
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Compresor de PDFs (Optimizado para Tribunales)",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Reduce el peso de PDFs manteniendo legibilidad. Optimizado para plataformas del Poder Judicial y Registro Inmobiliario de la RD.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/compresor.js"></script>
+</body>
+</html>

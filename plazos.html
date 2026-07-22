@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Plazos Procesales RD (Ley 139-97) · LexTools</title>
+    <meta name="description" content="Calcule plazos procesales en República Dominicana con exclusión de fines de semana, festivos movibles (Ley 139-97) y plazos francos. Gratis y 100% local.">
+    <meta name="keywords" content="cómputo de plazos, plazos procesales República Dominicana, Ley 139-97, dies a quo, plazo franco">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Calculadora de Plazos Procesales RD (Ley 139-97) · LexTools">
+    <meta property="og:description" content="Calcule plazos procesales en República Dominicana con exclusión de fines de semana, festivos movibles (Ley 139-97) y plazos francos. Gratis y 100% local.">
+    <meta property="og:url" content="./plazos.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calculadora de Plazos Procesales RD (Ley 139-97) · LexTools">
+    <meta name="twitter:description" content="Calcule plazos procesales en República Dominicana con exclusión de fines de semana, festivos movibles (Ley 139-97) y plazos francos. Gratis y 100% local.">
+
+    <link rel="canonical" href="./plazos.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-plazos">
+                    <div class="tool-header">
+                        <h2>Calculadora de Plazos Procesales</h2>
+                        <p>Cómputo inteligente de términos legales en la República Dominicana (exclusión de fines de semana, Ley 139-97 de traslado de festivos y plazos francos).</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fecha-inicio">Fecha del Acto / Notificación (Dies a Quo):</label>
+                                <input type="date" id="fecha-inicio" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="plazo-cantidad">Cantidad (Plazo):</label>
+                                <input type="number" id="plazo-cantidad" value="10" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="plazo-unidad">Unidad de Medida:</label>
+                                <select id="plazo-unidad">
+                                    <option value="dias">Días</option>
+                                    <option value="meses">Meses</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="plazo-tipo">Tipo de Plazo:</label>
+                                <select id="plazo-tipo">
+                                    <option value="habiles">Días Hábiles (Lunes a Viernes no festivos)</option>
+                                    <option value="naturales">Días Naturales / Calendario</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-full-width">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="plazo-franco" checked>
+                                    <span><strong>Plazo Franco:</strong> Excluir día de la notificación (dies a quo) y día del vencimiento (dies ad quem). Añade +2 días al plazo total.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="btn-calcular-plazos" class="btn-primary btn-accent">
+                            Calcular Vencimiento
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">Diplomados y Maestrías en Derecho Procesal RD</span>
+                        </div>
+
+                        <div id="plazos-results" class="results-card">
+                            <h3>Resultado del Cómputo Procesal</h3>
+                            <div class="result-main">
+                                <div class="result-value-box">
+                                    <div class="result-label">Fecha de Vencimiento Ordinaria</div>
+                                    <div id="res-vencimiento" class="result-value">-</div>
+                                </div>
+                                <div id="res-franco-detalle" class="result-value-box grace-day" style="display:none;"></div>
+                            </div>
+                            <ul class="result-detail-list">
+                                <li><span class="result-detail-label">Fecha de Inicio (Notificación):</span><span id="res-fecha-inicio" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Plazo Solicitado:</span><span id="res-plazo-solicitado" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Cálculo de Horas Límite:</span><span class="result-detail-val">El plazo expira a las 11:59 PM (digital) o al cierre de secretaría.</span></li>
+                            </ul>
+                            <div class="calendar-log">
+                                <div class="calendar-log-title">Desglose paso a paso del calendario aplicado:</div>
+                                <div id="plazos-log-list" class="calendar-log-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" aria-current="page">
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Calculadora de Plazos Procesales",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Calcule plazos procesales en República Dominicana con exclusión de fines de semana, festivos movibles (Ley 139-97) y plazos francos. Gratis y 100% local.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/plazos.js"></script>
+</body>
+</html>

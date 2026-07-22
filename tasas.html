@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Tasas DGII e Impuestos de Registro RD · LexTools</title>
+    <meta name="description" content="Calcule impuestos DGII (3% transferencia inmobiliaria, 2% hipoteca, traspaso vehículos) y tasas de registro para trámites en República Dominicana.">
+    <meta name="keywords" content="impuesto transferencia inmobiliaria, DGII, tasas registro, hipoteca RD, traspaso vehículo">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Calculadora de Tasas DGII e Impuestos de Registro RD · LexTools">
+    <meta property="og:description" content="Calcule impuestos DGII (3% transferencia inmobiliaria, 2% hipoteca, traspaso vehículos) y tasas de registro para trámites en República Dominicana.">
+    <meta property="og:url" content="./tasas.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calculadora de Tasas DGII e Impuestos de Registro RD · LexTools">
+    <meta name="twitter:description" content="Calcule impuestos DGII (3% transferencia inmobiliaria, 2% hipoteca, traspaso vehículos) y tasas de registro para trámites en República Dominicana.">
+
+    <link rel="canonical" href="./tasas.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-tasas">
+                    <div class="tool-header">
+                        <h2>Calculadora de Tasas Judiciales e Impuestos de Registro</h2>
+                        <p>Calcula de forma exacta las tasas registrales, impuestos fiscales y sellos para transacciones inmobiliarias, comerciales y civiles en la República Dominicana.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-grid">
+                            <div class="form-group form-full-width">
+                                <label for="tas-tipo-acto">Tipo de Trámite o Acto:</label>
+                                <select id="tas-tipo-acto">
+                                    <option value="transferencia-inmobiliaria">Transferencia Inmobiliaria / Compraventa</option>
+                                    <option value="constitucion-hipoteca">Constitución de Hipoteca</option>
+                                    <option value="venta-vehiculo">Traspaso / Venta de Vehículo</option>
+                                    <option value="civil-con-cuantia">Registro Civil de Contrato con Cuantía</option>
+                                    <option value="civil-sin-cuantia">Registro Civil de Acto Sin Cuantía</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-full-width" id="tas-valor-container">
+                                <label for="tas-valor">Valor del Bien Declarado (RD$):</label>
+                                <input type="number" id="tas-valor" placeholder="Ej: 2000000" min="1" required>
+                            </div>
+                        </div>
+
+                        <button id="btn-calcular-tasas" class="btn-primary btn-accent">
+                            Calcular Tasas e Impuestos
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">Gestor Catastro Rápido</span>
+                        </div>
+
+                        <div id="tasas-results" class="results-card">
+                            <h3>Presupuesto Estimado de Registro e Impuestos</h3>
+                            <div class="result-main">
+                                <div class="result-value-box">
+                                    <div class="result-label">Total Estimado a Pagar</div>
+                                    <div id="res-tas-total" class="result-value">-</div>
+                                </div>
+                            </div>
+                            <ul class="result-detail-list">
+                                <li><span class="result-detail-label">Tipo de Acto:</span><span id="res-tas-tipo" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Valor Declarado:</span><span id="res-tas-valor" class="result-detail-val">-</span></li>
+                                <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                                        <span class="result-detail-label">Impuesto Fiscal (DGII):</span>
+                                        <span id="res-tas-impuesto" class="result-detail-val">-</span>
+                                    </div>
+                                    <span id="res-tas-impuesto-desc" style="color: var(--text-muted); font-size: 0.75rem; font-style: italic;"></span>
+                                </li>
+                                <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                                        <span class="result-detail-label">Derechos de Registro:</span>
+                                        <span id="res-tas-registro" class="result-detail-val">-</span>
+                                    </div>
+                                    <span id="res-tas-registro-desc" style="color: var(--text-muted); font-size: 0.75rem; font-style: italic;"></span>
+                                </li>
+                                <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                                        <span class="result-detail-label">Sellos y Tasas:</span>
+                                        <span id="res-tas-sellos" class="result-detail-val">-</span>
+                                    </div>
+                                    <span id="res-tas-sellos-desc" style="color: var(--text-muted); font-size: 0.75rem; font-style: italic;"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" aria-current="page">
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Calculadora de Tasas Judiciales e Impuestos de Registro",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Calcule impuestos DGII (3% transferencia inmobiliaria, 2% hipoteca, traspaso vehículos) y tasas de registro para trámites en República Dominicana.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/tasas.js"></script>
+</body>
+</html>

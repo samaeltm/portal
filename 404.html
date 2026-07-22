@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página no encontrada · LexTools RD</title>
+    <meta name="description" content="La página que buscas no existe o fue movida. Vuelve al inicio de LexTools RD.">
+    <meta name="keywords" content="404, página no encontrada">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Página no encontrada · LexTools RD">
+    <meta property="og:description" content="La página que buscas no existe o fue movida. Vuelve al inicio de LexTools RD.">
+    <meta property="og:url" content="./404.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Página no encontrada · LexTools RD">
+    <meta name="twitter:description" content="La página que buscas no existe o fue movida. Vuelve al inicio de LexTools RD.">
+
+    <link rel="canonical" href="./404.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="not-found">
+            <div class="not-found-code">404</div>
+            <h1>Página no encontrada</h1>
+            <p>El enlace que seguiste está roto o la herramienta fue movida. Vuelve al inicio y encuentra lo que buscas.</p>
+            <a href="index.html" class="btn-primary btn-accent">Volver al inicio</a>
+        </div>
+    </div>
+
+    <script src="js/shared.js"></script>
+    
+</body>
+</html>

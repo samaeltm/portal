@@ -2,211 +2,179 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Portal gratuito de herramientas digitales y utilidades procesales para abogados en la República Dominicana. Realice cómputo de plazos procesales (Ley 139-97) y folie sus expedientes PDF 100% en local.">
-    <meta name="author" content="Herramientas Legales RD">
-    <title>Portal de Herramientas Legales - República Dominicana</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexTools RD · Portal de Herramientas Legales para Abogados Dominicanos</title>
+    <meta name="description" content="Portal gratuito con 10 herramientas legales para abogados en República Dominicana: cómputo de plazos (Ley 139-97), foliador PDF, prestaciones laborales, contratos, OCR y más. 100% local.">
+    <meta name="keywords" content="herramientas legales República Dominicana, abogados RD, cómputo plazos, foliador PDF, prestaciones laborales, contratos legales, LexTools">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LexTools RD · Portal de Herramientas Legales para Abogados Dominicanos">
+    <meta property="og:description" content="Portal gratuito con 10 herramientas legales para abogados en República Dominicana: cómputo de plazos (Ley 139-97), foliador PDF, prestaciones laborales, contratos, OCR y más. 100% local.">
+    <meta property="og:url" content="./">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LexTools RD · Portal de Herramientas Legales para Abogados Dominicanos">
+    <meta name="twitter:description" content="Portal gratuito con 10 herramientas legales para abogados en República Dominicana: cómputo de plazos (Ley 139-97), foliador PDF, prestaciones laborales, contratos, OCR y más. 100% local.">
+
+    <link rel="canonical" href="./">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    
 </head>
 <body>
 
     <div class="app-container">
-        
-        <header class="main-header">
-            <div class="brand">
-                <h1>LexTools RD</h1>
-                <p>Portal Modular de Herramientas Gratuitas para Abogados Dominicanos</p>
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90 · Banner Horizontal</span>
+        </div>
+
+        <section class="hero">
+            <span class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>República Dominicana · 2026</span>
+            <h1>Herramientas legales <em>modernas</em> y gratuitas para el abogado dominicano.</h1>
+            <p class="hero-sub">
+                Diez utilidades procesales, contractuales y de gestión documental que funcionan
+                <strong>100&nbsp;% en tu navegador</strong>. Sin registros, sin subir archivos, sin costos.
+            </p>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                <a href="#herramientas" class="btn-primary btn-accent">Explorar herramientas</a>
+                <button class="btn-secondary" data-action="open-palette">Buscar con Ctrl&nbsp;K</button>
             </div>
-            
-            <div class="ad-placeholder ad-zone-a">
-                <span class="ad-badge">Anuncio Premium</span>
-                <span class="ad-title">Patrocinador Principal LexTools</span>
-                <span class="ad-size">728 x 90 (Banner Horizontal)</span>
+            <div class="hero-stats">
+                <div class="hero-stat"><div class="hero-stat-value">10</div><div class="hero-stat-label">Herramientas</div></div>
+                <div class="hero-stat"><div class="hero-stat-value">100%</div><div class="hero-stat-label">Local y privado</div></div>
+                <div class="hero-stat"><div class="hero-stat-value">RD$&nbsp;0</div><div class="hero-stat-label">Sin costo</div></div>
             </div>
-        </header>
+        </section>
 
-        <main class="dashboard-layout">
-
-            <!-- Navegación móvil optimizada (OCR removido) -->
-            <nav class="mobile-tool-nav" aria-label="Navegación de herramientas">
-                <div class="mobile-tool-nav-scroll">
-                    <button type="button" class="mobile-tool-chip active" data-tool="tool-plazos">Plazos</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-foliador">Foliador</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-prestaciones">Prestaciones</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-compresor">Compresor</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-intereses">Intereses</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-contratos">Contratos</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-combinador">Combinar</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-firma">Firma</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-tasas">Tasas</button>
-                </div>
-            </nav>
-            
-            <section class="content-area">
-                
-                <!-- Los contenedores desde tool-plazos hasta tool-contratos permanecen idénticos,
-                     reemplazando el bloque del OCR que ha sido eliminado por completo. -->
-                
-                <!-- [Contenedores de Plazos a Contratos van aquí...] -->
-
-                <!-- HERRAMIENTA: ESTAMPADOR DE FIRMA Y SELLO (Ahora sube una posición) -->
-                <div id="tool-firma" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Estampador de Firma y Sello Digital</h2>
-                        <p>Dibuja tu firma a mano alzada o carga la imagen de tu sello húmedo, y colócala de manera limpia en cualquier página de tu documento PDF de forma local.</p>
-                    </div>
-                    <div class="tool-body">
-                        
-                        <div class="form-group" style="margin-bottom: 24px;">
-                            <label>Cargar Archivo PDF a Firmar:</label>
-                            <div id="sign-dropzone" class="dropzone-container">
-                                <div class="dropzone-icon">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                                </div>
-                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
-                                <input type="file" id="sign-file-input" accept="application/pdf" style="display:none;">
-                            </div>
-                            
-                            <div id="sign-file-info" class="file-info-box">
-                                <div>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
-                                    <span id="sign-file-name" class="file-name">-</span>
-                                </div>
-                                <button id="btn-remove-sign-file" class="btn-remove-file">Remover</button>
-                            </div>
-                        </div>
-
-                        <!-- Panel de Rúbricas adaptativo -->
-                        <div class="dual-panel-grid">
-                            <div class="form-group">
-                                <label>Dibujar Firma Manuscrita:</label>
-                                <canvas id="firma-canvas" width="400" height="150" style="border:2px solid var(--border); border-radius:8px; background:#ffffff; cursor:crosshair; width:100%; height:150px; max-width: 100%;"></canvas>
-                                <button type="button" id="btn-clear-canvas" class="btn-primary" style="padding:8px 16px; font-size:0.8rem; background-color:var(--secondary); color:#fff; align-self:flex-start; margin-top:8px;">
-                                    Limpiar Recuadro
-                                </button>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Subir Imagen de Sello (Opcional - PNG transparente preferible):</label>
-                                <div style="display:flex; flex-direction:column; gap:12px;">
-                                    <button type="button" class="btn-primary" style="background-color:var(--primary-light); color:#fff;" onclick="document.getElementById('seal-file-input').click()">
-                                        Cargar Imagen de Sello
-                                    </button>
-                                    <input type="file" id="seal-file-input" accept="image/png, image/jpeg" style="display:none;">
-                                    
-                                    <div id="seal-info-box" class="file-info-box" style="margin-top:0;">
-                                        <div>
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--success);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                            <span id="seal-file-name" style="font-weight:600;">sello.png</span>
-                                        </div>
-                                        <button type="button" id="btn-remove-seal" class="btn-remove-file">Remover</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Parámetros del Estampado -->
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="sign-pagina">Número de Página a Estampar:</label>
-                                <input type="number" id="sign-pagina" value="1" min="1">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="sign-posicion">Ubicación de la Firma:</label>
-                                <select id="sign-posicion">
-                                    <option value="bottom-right">Esquina Inferior Derecha (Recomendado)</option>
-                                    <option value="bottom-left">Esquina Inferior Izquierda</option>
-                                    <option value="top-right">Esquina Superior Derecha</option>
-                                    <option value="top-left">Esquina Superior Izquierda</option>
-                                    <option value="center">Centro de la Página</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="sign-tamano">Tamaño de la Rúbrica:</label>
-                                <select id="sign-tamano">
-                                    <option value="small">Pequeño (100x50 px)</option>
-                                    <option value="medium" selected>Mediano (150x75 px - Estándar)</option>
-                                    <option value="large">Grande (220x110 px)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button id="btn-stamp-pdf" class="btn-primary" disabled>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                            Estampar y Descargar PDF Firmado
-                        </button>
-                    </div>
-                </div>
-
-            </section>
-            
-            <aside class="sidebar-area">
-                <div class="sidebar-card">
-                    <h3 class="sidebar-title">Menú de Herramientas</h3>
-                    <ul class="tool-nav-list">
-                        <!-- El item de OCR fue removido de la barra lateral -->
-                        <li class="tool-nav-item active" data-tool="tool-plazos">
-                            <button>
-                                <span>Calculadora de Plazos</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-foliador">
-                            <button>
-                                <span>Foliador de PDFs</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-prestaciones">
-                            <button>
-                                <span>Cálculo de Prestaciones</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-compresor">
-                            <button>
-                                <span>Compresor de PDFs</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-intereses">
-                            <button>
-                                <span>Intereses e Indexación</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-contratos">
-                            <button>
-                                <span>Generador de Contratos</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-combinador">
-                            <button>
-                                <span>Combinar / Dividir PDFs</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-firma">
-                            <button>
-                                <span>Firma y Sello</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        <li class="tool-nav-item" data-tool="tool-tasas">
-                            <button>
-                                <span>Tasas e Impuestos</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-        </main>
+        <section class="tools-section" id="herramientas">
+            <h2 class="section-title">Suite de herramientas</h2>
+            <p class="section-lead">Selecciona una utilidad para abrir su espacio de trabajo. Cada herramienta carga solo lo que necesita.</p>
+            <div class="tools-grid">
+                <a href="plazos.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                    <h3>Calculadora de Plazos Procesales</h3>
+                    <p>Calcule plazos procesales en República Dominicana con exclusión de fines de semana, festivos movibles (Ley 139-97) y plazos francos.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="foliador.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></span>
+                    <h3>Foliador / Numerador de Expedientes PDF</h3>
+                    <p>Numere folios en sus expedientes PDF en segundos.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="prestaciones.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                    <h3>Cálculo de Prestaciones e Indemnización por Despido</h3>
+                    <p>Calcule preaviso, cesantía, vacaciones y salario de Navidad según el Código de Trabajo dominicano (Ley 16-92).</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="intereses.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                    <h3>Calculadora de Intereses de Demora e Indexación</h3>
+                    <p>Liquidación de sentencias con intereses moratorios (1.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="tasas.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l3-2 3 2 3-2 3 2 3-2 3 2V2l-3 2-3-2-3 2-3-2-3 2z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="14" y2="14"/></svg></span>
+                    <h3>Calculadora de Tasas Judiciales e Impuestos de Registro</h3>
+                    <p>Calcule impuestos DGII (3% transferencia inmobiliaria, 2% hipoteca, traspaso vehículos) y tasas de registro para trámites en República Dominicana.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="combinador.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+                    <h3>Combinador y Divisor de Piezas Jurídicas</h3>
+                    <p>Une múltiples PDFs en un expediente o extrae páginas específicas.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="compresor.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></span>
+                    <h3>Compresor de PDFs</h3>
+                    <p>Reduce el peso de PDFs manteniendo legibilidad.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="contratos.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 18s1-1 2-1 2 1 4 1 3-1 3-1"/></svg></span>
+                    <h3>Generador de Contratos Legales</h3>
+                    <p>Borradores de arrendamiento, trabajo, compraventa, poder especial y préstamo personal según el marco legal dominicano.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="ocr.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="13" y2="17"/></svg></span>
+                    <h3>Extractor de Texto</h3>
+                    <p>Extraiga texto de PDFs digitales o escaneados con reconocimiento OCR en español.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+                <a href="firma.html" class="tool-card">
+                    <span class="tool-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span>
+                    <h3>Estampador de Firma y Sello Digital</h3>
+                    <p>Dibuje su firma o cargue un sello y estámpelo en cualquier página de un PDF.</p>
+                    <span class="tool-card-cta">
+                        Abrir herramienta
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                </a>
+            </div>
+        </section>
     </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "LexTools RD",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Portal gratuito de herramientas digitales para abogados en la República Dominicana.",
+        "url": "./",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "inLanguage": "es-DO"
+    }</script>
+
+    <script src="js/shared.js"></script>
+    
 </body>
 </html>

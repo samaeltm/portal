@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firma Digital en PDF · LexTools RD</title>
+    <meta name="description" content="Dibuje su firma o cargue un sello y estámpelo en cualquier página de un PDF. Firma electrónica simple 100% local.">
+    <meta name="keywords" content="firma digital PDF, estampar sello, firma electrónica RD">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Firma Digital en PDF · LexTools RD">
+    <meta property="og:description" content="Dibuje su firma o cargue un sello y estámpelo en cualquier página de un PDF. Firma electrónica simple 100% local.">
+    <meta property="og:url" content="./firma.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Firma Digital en PDF · LexTools RD">
+    <meta name="twitter:description" content="Dibuje su firma o cargue un sello y estámpelo en cualquier página de un PDF. Firma electrónica simple 100% local.">
+
+    <link rel="canonical" href="./firma.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-firma">
+                    <div class="tool-header">
+                        <h2>Estampador de Firma y Sello Digital</h2>
+                        <p>Dibuja tu firma a mano alzada o carga la imagen de tu sello húmedo, y colócala de manera limpia en cualquier página de tu documento PDF de forma local.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label>Cargar Archivo PDF a Firmar:</label>
+                            <div id="sign-dropzone" class="dropzone-container">
+                                <div class="dropzone-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
+                                <input type="file" id="sign-file-input" accept="application/pdf" style="display:none;">
+                            </div>
+                            <div id="sign-file-info" class="file-info-box">
+                                <div>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                                    <span id="sign-file-name" class="file-name">-</span>
+                                </div>
+                                <button id="btn-remove-sign-file" class="btn-remove-file">Remover</button>
+                            </div>
+                        </div>
+
+                        <div class="dual-panel-grid">
+                            <div class="form-group">
+                                <label>Dibujar Firma Manuscrita:</label>
+                                <canvas id="firma-canvas" width="400" height="150" style="border:1.5px solid var(--border); border-radius:10px; background:#ffffff; cursor:crosshair; width:100%; height:150px;"></canvas>
+                                <button type="button" id="btn-clear-canvas" class="btn-secondary" style="align-self:flex-start; margin-top:8px; padding:8px 14px; font-size:0.82rem; min-height:auto;">
+                                    Limpiar Recuadro
+                                </button>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Subir Imagen de Sello (Opcional):</label>
+                                <div style="display:flex; flex-direction:column; gap:12px;">
+                                    <button type="button" class="btn-secondary" onclick="document.getElementById('seal-file-input').click()">
+                                        Cargar Imagen de Sello
+                                    </button>
+                                    <input type="file" id="seal-file-input" accept="image/png, image/jpeg" style="display:none;">
+                                    <div id="seal-info-box" class="file-info-box" style="margin-top:0;">
+                                        <div>
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--success);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                            <span id="seal-file-name" style="font-weight:600;">sello.png</span>
+                                        </div>
+                                        <button type="button" id="btn-remove-seal" class="btn-remove-file">Remover</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="sign-pagina">Número de Página:</label>
+                                <input type="number" id="sign-pagina" value="1" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="sign-posicion">Ubicación:</label>
+                                <select id="sign-posicion">
+                                    <option value="bottom-right">Esquina Inferior Derecha</option>
+                                    <option value="bottom-left">Esquina Inferior Izquierda</option>
+                                    <option value="top-right">Esquina Superior Derecha</option>
+                                    <option value="top-left">Esquina Superior Izquierda</option>
+                                    <option value="center">Centro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sign-tamano">Tamaño:</label>
+                                <select id="sign-tamano">
+                                    <option value="small">Pequeño (100×50)</option>
+                                    <option value="medium" selected>Mediano (150×75)</option>
+                                    <option value="large">Grande (220×110)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button id="btn-stamp-pdf" class="btn-primary btn-accent" disabled>
+                            Estampar y Descargar PDF Firmado
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">Firma electrónica cualificada en RD</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" aria-current="page">
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Estampador de Firma y Sello Digital",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Dibuje su firma o cargue un sello y estámpelo en cualquier página de un PDF. Firma electrónica simple 100% local.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/firma.js"></script>
+</body>
+</html>

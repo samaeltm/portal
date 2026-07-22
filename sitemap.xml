@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>./</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>./plazos.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./foliador.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./prestaciones.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./intereses.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./tasas.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./combinador.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./compresor.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./contratos.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./ocr.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>./firma.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>

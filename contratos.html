@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Contratos Legales RD · Plantillas Gratuitas</title>
+    <meta name="description" content="Borradores de arrendamiento, trabajo, compraventa, poder especial y préstamo personal según el marco legal dominicano. Descargue e imprima.">
+    <meta name="keywords" content="contrato arrendamiento RD, plantilla contrato trabajo, poder especial notarial, Ley 4314">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Generador de Contratos Legales RD · Plantillas Gratuitas">
+    <meta property="og:description" content="Borradores de arrendamiento, trabajo, compraventa, poder especial y préstamo personal según el marco legal dominicano. Descargue e imprima.">
+    <meta property="og:url" content="./contratos.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Generador de Contratos Legales RD · Plantillas Gratuitas">
+    <meta name="twitter:description" content="Borradores de arrendamiento, trabajo, compraventa, poder especial y préstamo personal según el marco legal dominicano. Descargue e imprima.">
+
+    <link rel="canonical" href="./contratos.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-contratos">
+                    <div class="tool-header">
+                        <h2>Generador de Contratos Legales</h2>
+                        <p>Redacta borradores de contratos comunes basados en el marco legal de la República Dominicana. Selecciona el tipo, completa los datos y genera el documento listo para imprimir o copiar.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-grid">
+                            <div class="form-group form-full-width">
+                                <label for="con-tipo-contrato">Tipo de Contrato a Generar:</label>
+                                <select id="con-tipo-contrato">
+                                    <option value="arrendamiento">Contrato de Arrendamiento de Inmueble (Ley 4314)</option>
+                                    <option value="trabajo">Contrato de Trabajo por Tiempo Indefinido</option>
+                                    <option value="compraventa-vehiculo">Compraventa de Vehículo de Motor</option>
+                                    <option value="poder-especial">Poder Especial Notarial</option>
+                                    <option value="prestamo-personal">Contrato de Préstamo Personal</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="con-campos-dinamicos" class="form-grid" style="margin-top: 8px;"></div>
+
+                        <button id="btn-generar-contrato" class="btn-primary btn-accent" style="margin-top: 8px;">
+                            Generar Borrador de Contrato
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">Contratos con firma electrónica avanzada</span>
+                        </div>
+
+                        <div id="con-preview-container" style="display:none; margin-top: 24px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+                                <h3 style="margin:0; font-family:'Playfair Display',serif; color:var(--primary);">Borrador de Contrato Generado</h3>
+                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                    <button id="btn-imprimir-contrato" class="btn-secondary" style="padding: 10px 18px; font-size: 0.85rem;">
+                                        Imprimir / Guardar como PDF
+                                    </button>
+                                    <button id="btn-copiar-contrato" class="btn-secondary" style="padding: 10px 18px; font-size: 0.85rem;">
+                                        Copiar al Portapapeles
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="con-preview-area" style="background:#fff; color:#1a1a2e; border: 1px solid var(--border); border-radius: 12px; padding: 48px; font-family: 'EB Garamond', Georgia, serif; font-size: 1rem; line-height: 1.8; box-shadow: var(--shadow-md);"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" aria-current="page">
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Generador de Contratos Legales",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Borradores de arrendamiento, trabajo, compraventa, poder especial y préstamo personal según el marco legal dominicano. Descargue e imprima.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/contratos.js"></script>
+</body>
+</html>

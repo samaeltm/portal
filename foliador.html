@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foliador de PDF Gratis para Abogados · LexTools RD</title>
+    <meta name="description" content="Numere folios en sus expedientes PDF en segundos. Procesamiento 100% local en el navegador, sin subir archivos a internet.">
+    <meta name="keywords" content="foliador PDF, numerar expedientes, abogados República Dominicana, pdf-lib">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Foliador de PDF Gratis para Abogados · LexTools RD">
+    <meta property="og:description" content="Numere folios en sus expedientes PDF en segundos. Procesamiento 100% local en el navegador, sin subir archivos a internet.">
+    <meta property="og:url" content="./foliador.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Foliador de PDF Gratis para Abogados · LexTools RD">
+    <meta name="twitter:description" content="Numere folios en sus expedientes PDF en segundos. Procesamiento 100% local en el navegador, sin subir archivos a internet.">
+
+    <link rel="canonical" href="./foliador.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-foliador">
+                    <div class="tool-header">
+                        <h2>Foliador / Numerador de Expedientes PDF</h2>
+                        <p>Rotula y numera folios en tus documentos PDF en segundos. Procesamiento seguro realizado enteramente en tu navegador sin subir el archivo a internet.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label>Cargar Archivo PDF:</label>
+                            <div id="dropzone" class="dropzone-container">
+                                <div class="dropzone-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+                                </div>
+                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
+                                <div class="dropzone-subtext">Soporta únicamente archivos PDF (.pdf)</div>
+                                <input type="file" id="foliador-file-input" accept="application/pdf" style="display:none;">
+                            </div>
+                            <div id="file-info-box" class="file-info-box">
+                                <div>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    <span id="file-name" class="file-name">archivo.pdf</span>
+                                </div>
+                                <button id="btn-remove-file" class="btn-remove-file">Remover</button>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fol-inicio">Número Inicial:</label>
+                                <input type="number" id="fol-inicio" value="1" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="fol-prefijo">Prefijo del Folio:</label>
+                                <input type="text" id="fol-prefijo" value="Folio " placeholder="Ej: Pág. o Folio ">
+                            </div>
+                            <div class="form-group">
+                                <label for="fol-posicion">Ubicación en la Página:</label>
+                                <select id="fol-posicion">
+                                    <option value="top-right">Esquina Superior Derecha (Recomendado)</option>
+                                    <option value="bottom-right">Esquina Inferior Derecha</option>
+                                    <option value="top-left">Esquina Superior Izquierda</option>
+                                    <option value="bottom-left">Esquina Inferior Izquierda</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fol-color">Color del Texto:</label>
+                                <select id="fol-color">
+                                    <option value="navy">Azul Marino Institucional</option>
+                                    <option value="black">Negro Estándar</option>
+                                    <option value="red">Rojo Judicial</option>
+                                    <option value="gray">Gris Pizarra</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fol-tamano">Tamaño de Letra:</label>
+                                <select id="fol-tamano">
+                                    <option value="10">10 pt</option>
+                                    <option value="12" selected>12 pt (Estándar)</option>
+                                    <option value="14">14 pt</option>
+                                    <option value="16">16 pt</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="fol-mostrar-total">
+                                    <span>Mostrar total de páginas (ej: "Folio 1 de 20")</span>
+                                </label>
+                            </div>
+                            <div class="form-group form-full-width">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="fol-excluir-primera" checked>
+                                    <span><strong>Omitir primera página:</strong> Útil si es Portada o Índice del expediente.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="btn-foliar-pdf" class="btn-primary btn-accent" disabled>
+                            Foliar Expediente PDF
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">¿Necesitas compresión PDF avanzada?</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" aria-current="page">
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Foliador / Numerador de Expedientes PDF",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Numere folios en sus expedientes PDF en segundos. Procesamiento 100% local en el navegador, sin subir archivos a internet.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/foliador.js"></script>
+</body>
+</html>

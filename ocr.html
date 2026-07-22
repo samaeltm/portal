@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR y Extractor de Texto de PDF · LexTools RD</title>
+    <meta name="description" content="Extraiga texto de PDFs digitales o escaneados con reconocimiento OCR en español. Todo el procesamiento ocurre en su navegador.">
+    <meta name="keywords" content="OCR PDF, extractor texto, tesseract español, PDF escaneado">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="OCR y Extractor de Texto de PDF · LexTools RD">
+    <meta property="og:description" content="Extraiga texto de PDFs digitales o escaneados con reconocimiento OCR en español. Todo el procesamiento ocurre en su navegador.">
+    <meta property="og:url" content="./ocr.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OCR y Extractor de Texto de PDF · LexTools RD">
+    <meta name="twitter:description" content="Extraiga texto de PDFs digitales o escaneados con reconocimiento OCR en español. Todo el procesamiento ocurre en su navegador.">
+
+    <link rel="canonical" href="./ocr.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-ocr">
+                    <div class="tool-header">
+                        <h2>Extractor de Texto (OCR)</h2>
+                        <p>Extrae texto de cualquier PDF en tu navegador. Para PDFs digitales usa el Modo Nativo; para escaneados usa el Modo OCR con reconocimiento en español.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label>Cargar Archivo PDF:</label>
+                            <div id="ocr-dropzone" class="dropzone-container">
+                                <div class="dropzone-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
+                                <div class="dropzone-subtext">Soporta PDFs digitales y escaneados</div>
+                                <input type="file" id="ocr-file-input" accept="application/pdf" style="display:none;">
+                            </div>
+                            <div id="ocr-file-info" class="file-info-box">
+                                <div>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    <span id="ocr-file-name" class="file-name">-</span>
+                                </div>
+                                <button id="btn-remove-ocr-file" class="btn-remove-file">Remover</button>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="ocr-modo">Modo de Extracción:</label>
+                                <select id="ocr-modo">
+                                    <option value="digital">Modo Nativo — Texto Digital (Rápido)</option>
+                                    <option value="ocr">Modo OCR — Reconocimiento Visual (Lento)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ocr-paginas">Páginas a Extraer (opcional):</label>
+                                <input type="text" id="ocr-paginas" placeholder="Ej: 1-5, 8, 12-20">
+                            </div>
+                        </div>
+
+                        <button id="btn-extract-text" class="btn-primary btn-accent" disabled>
+                            Extraer Texto del PDF
+                        </button>
+
+                        <div id="ocr-progress-box" style="display:none; margin-top: 20px;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                                <span style="font-size:0.85rem; color:var(--text-muted);">Progreso:</span>
+                                <span id="ocr-progress-label" style="font-size:0.85rem; color:var(--accent);">Iniciando…</span>
+                            </div>
+                            <div style="background:var(--border); border-radius:99px; height:8px; overflow:hidden;">
+                                <div id="ocr-progress-bar" style="height:100%; width:0%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius:99px; transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">OCR avanzado para expedientes masivos</span>
+                        </div>
+
+                        <div id="ocr-results-box" style="display:none;">
+                            <h3 style="font-family:'Playfair Display',serif; color:var(--primary); margin-bottom:12px;">Texto Extraído</h3>
+                            <div id="ocr-stats" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; font-size:0.82rem; color:var(--text-muted);"></div>
+                            <textarea id="ocr-texto-resultado" rows="18" style="width:100%; box-sizing:border-box; font-family: 'Courier New', monospace; font-size: 0.88rem; line-height:1.6; padding:16px; background:var(--bg-subtle); color:var(--text-main); border:1.5px solid var(--border); border-radius:10px; resize:vertical;"></textarea>
+                            <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+                                <button id="btn-ocr-copiar" class="btn-secondary">Copiar Todo el Texto</button>
+                                <button id="btn-ocr-descargar" class="btn-secondary">Descargar como .TXT</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" >
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" aria-current="page">
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Extractor de Texto (OCR)",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Extraiga texto de PDFs digitales o escaneados con reconocimiento OCR en español. Todo el procesamiento ocurre en su navegador.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/ocr.js"></script>
+</body>
+</html>

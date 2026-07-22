@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Prestaciones Laborales RD · Código de Trabajo</title>
+    <meta name="description" content="Calcule preaviso, cesantía, vacaciones y salario de Navidad según el Código de Trabajo dominicano (Ley 16-92). Gratis y sin registro.">
+    <meta name="keywords" content="prestaciones laborales, indemnización despido, Código de Trabajo RD, Ley 16-92, cesantía preaviso">
+    <meta name="author" content="LexTools RD">
+    <meta name="robots" content="index,follow">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Calculadora de Prestaciones Laborales RD · Código de Trabajo">
+    <meta property="og:description" content="Calcule preaviso, cesantía, vacaciones y salario de Navidad según el Código de Trabajo dominicano (Ley 16-92). Gratis y sin registro.">
+    <meta property="og:url" content="./prestaciones.html">
+    <meta property="og:site_name" content="LexTools RD">
+    <meta property="og:locale" content="es_DO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calculadora de Prestaciones Laborales RD · Código de Trabajo">
+    <meta name="twitter:description" content="Calcule preaviso, cesantía, vacaciones y salario de Navidad según el Código de Trabajo dominicano (Ley 16-92). Gratis y sin registro.">
+
+    <link rel="canonical" href="./prestaciones.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Dark mode sin flash -->
+    <script>
+        (function() {
+            try {
+                var t = localStorage.getItem('lex-theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (t === 'dark') document.documentElement.classList.add('dark');
+            } catch(e) {}
+        })();
+    </script>
+
+    
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="ad-placeholder ad-zone-a">
+            <span class="ad-badge">Anuncio Premium</span>
+            <span class="ad-title">Patrocinador Principal LexTools</span>
+            <span class="ad-size">728 × 90</span>
+        </div>
+
+        <main class="dashboard-layout">
+            <section class="content-area">
+
+                <div class="tool-container" id="tool-prestaciones">
+                    <div class="tool-header">
+                        <h2>Cálculo de Prestaciones e Indemnización por Despido</h2>
+                        <p>Calculadora de liquidaciones laborales basada estrictamente en el Código de Trabajo de la República Dominicana. Incluye preaviso, cesantía, vacaciones y doble sueldo proporcional.</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="lab-ingreso">Fecha de Ingreso:</label>
+                                <input type="date" id="lab-ingreso" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lab-salida">Fecha de Salida:</label>
+                                <input type="date" id="lab-salida" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lab-salario">Salario Mensual Bruto (RD$):</label>
+                                <input type="number" id="lab-salario" placeholder="Ej: 30000" min="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lab-motivo">Motivo de Término:</label>
+                                <select id="lab-motivo">
+                                    <option value="desahucio-patronal">Desahucio por el Empleador (Despido Injustificado)</option>
+                                    <option value="dimision-justificada">Dimisión Justificada (Renuncia con Causa)</option>
+                                    <option value="despido-justificado">Despido Justificado (Con Causa Probada)</option>
+                                    <option value="renuncia">Renuncia Voluntaria</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="lab-preaviso-dado">
+                                    <span>¿Se le otorgó/trabajó el Preaviso legal?</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="lab-vacaciones-tomadas">
+                                    <span>¿Tomó sus vacaciones del último año?</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="btn-calcular-prestaciones" class="btn-primary btn-accent">
+                            Calcular Liquidación Laboral
+                        </button>
+
+                        <div class="ad-placeholder ad-zone-c">
+                            <span class="ad-badge">Anuncio de Impacto</span>
+                            <span class="ad-title">Asesoría Laboral Premium — Consultas 24h</span>
+                        </div>
+
+                        <div id="prestaciones-results" class="results-card">
+                            <h3>Resultado de la Liquidación Laboral</h3>
+                            <div class="result-main">
+                                <div class="result-value-box">
+                                    <div class="result-label">Total a Recibir Estimado</div>
+                                    <div id="res-lab-total" class="result-value">-</div>
+                                </div>
+                                <div id="res-lab-aclaracion" class="result-value-box grace-day" style="display:none;"></div>
+                            </div>
+                            <ul class="result-detail-list">
+                                <li><span class="result-detail-label">Tiempo de Servicio:</span><span id="res-lab-servicio" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Salario Promedio Diario:</span><span id="res-lab-salario-diario" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Motivo de Salida:</span><span id="res-lab-motivo" class="result-detail-val">-</span></li>
+                                <li><span class="result-detail-label">Preaviso:</span><span class="result-detail-val"><span id="res-lab-preaviso-dias" style="color:var(--text-muted); font-size:0.8rem; font-weight:400; margin-right:8px;"></span><span id="res-lab-preaviso">-</span></span></li>
+                                <li><span class="result-detail-label">Cesantía:</span><span class="result-detail-val"><span id="res-lab-cesantia-dias" style="color:var(--text-muted); font-size:0.8rem; font-weight:400; margin-right:8px;"></span><span id="res-lab-cesantia">-</span></span></li>
+                                <li><span class="result-detail-label">Vacaciones:</span><span class="result-detail-val"><span id="res-lab-vacaciones-dias" style="color:var(--text-muted); font-size:0.8rem; font-weight:400; margin-right:8px;"></span><span id="res-lab-vacaciones">-</span></span></li>
+                                <li><span class="result-detail-label">Salario de Navidad:</span><span id="res-lab-navidad" class="result-detail-val">-</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <aside class="sidebar-area">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Menú de herramientas</h3>
+                    <ul class="tool-nav-list">
+                        <li>
+                            <a href="plazos.html" >
+                                <span>Calculadora de Plazos Procesales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="foliador.html" >
+                                <span>Foliador / Numerador de Expedientes PDF</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="prestaciones.html" aria-current="page">
+                                <span>Cálculo de Prestaciones e Indemnización por Despido</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="intereses.html" >
+                                <span>Calculadora de Intereses de Demora e Indexación</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tasas.html" >
+                                <span>Calculadora de Tasas Judiciales e Impuestos de Registro</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="combinador.html" >
+                                <span>Combinador y Divisor de Piezas Jurídicas</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compresor.html" >
+                                <span>Compresor de PDFs</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contratos.html" >
+                                <span>Generador de Contratos Legales</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ocr.html" >
+                                <span>Extractor de Texto</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firma.html" >
+                                <span>Estampador de Firma y Sello Digital</span>
+                                <span class="tool-status">Activa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ad-placeholder ad-zone-b">
+                    <span class="ad-badge">Anuncio Premium</span>
+                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
+                    <span class="ad-size">300 × 600 · Banner Lateral</span>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Cálculo de Prestaciones e Indemnización por Despido",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "description": "Calcule preaviso, cesantía, vacaciones y salario de Navidad según el Código de Trabajo dominicano (Ley 16-92). Gratis y sin registro.",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "DOP"},
+        "isPartOf": {"@type": "WebSite", "name": "LexTools RD", "url": "./"}
+    }</script>
+
+    <script src="js/shared.js"></script>
+        <script src="js/prestaciones.js"></script>
+</body>
+</html>
