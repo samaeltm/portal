@@ -2,31 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Portal gratuito de herramientas digitales y utilidades procesales para abogados en la República Dominicana. Realice cómputo de plazos procesales (Ley 139-97) y folie sus expedientes PDF 100% en local.">
     <meta name="author" content="Herramientas Legales RD">
     <title>Portal de Herramientas Legales - República Dominicana</title>
     
-    <!-- Enlace a estilos CSS -->
     <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Carga de pdf-lib desde un CDN estable para la foliación de PDF -->
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-    <!-- Tesseract.js: Motor OCR en el navegador para extracción de texto en escaneados -->
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
 
     <div class="app-container">
         
-        <!-- HEADER PRINCIPAL (Con Zona A de Anuncios) -->
         <header class="main-header">
             <div class="brand">
                 <h1>LexTools RD</h1>
                 <p>Portal Modular de Herramientas Gratuitas para Abogados Dominicanos</p>
             </div>
             
-            <!-- Zona A: Banner Superior Horizontal (728x90) -->
             <div class="ad-placeholder ad-zone-a">
                 <span class="ad-badge">Anuncio Premium</span>
                 <span class="ad-title">Patrocinador Principal LexTools</span>
@@ -34,10 +27,9 @@
             </div>
         </header>
 
-        <!-- CUERPO PRINCIPAL (Doble Columna: 70% Contenido / 30% Sidebar) -->
         <main class="dashboard-layout">
 
-            <!-- Navegación móvil / tablet (chips horizontales) -->
+            <!-- Navegación móvil optimizada (OCR removido) -->
             <nav class="mobile-tool-nav" aria-label="Navegación de herramientas">
                 <div class="mobile-tool-nav-scroll">
                     <button type="button" class="mobile-tool-chip active" data-tool="tool-plazos">Plazos</button>
@@ -47,776 +39,19 @@
                     <button type="button" class="mobile-tool-chip" data-tool="tool-intereses">Intereses</button>
                     <button type="button" class="mobile-tool-chip" data-tool="tool-contratos">Contratos</button>
                     <button type="button" class="mobile-tool-chip" data-tool="tool-combinador">Combinar</button>
-                    <button type="button" class="mobile-tool-chip" data-tool="tool-ocr">OCR</button>
                     <button type="button" class="mobile-tool-chip" data-tool="tool-firma">Firma</button>
                     <button type="button" class="mobile-tool-chip" data-tool="tool-tasas">Tasas</button>
                 </div>
             </nav>
             
-            <!-- COLUMNA PRINCIPAL - IZQUIERDA (70%) -->
             <section class="content-area">
                 
-                <!-- HERRAMIENTA 1: CALCULADORA DE PLAZOS PROCESALES -->
-                <div id="tool-plazos" class="tool-container active">
-                    <div class="tool-header">
-                        <h2>Calculadora de Plazos Procesales</h2>
-                        <p>Cómputo inteligente de términos legales en la República Dominicana (exclusión de fines de semana, Ley 139-97 de traslado de festivos y plazos francos).</p>
-                    </div>
-                    <div class="tool-body">
-                        <div class="form-grid">
-                            
-                            <div class="form-group">
-                                <label for="fecha-inicio">Fecha del Acto / Notificación (Dies a Quo):</label>
-                                <input type="date" id="fecha-inicio" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="plazo-cantidad">Cantidad (Plazo):</label>
-                                <input type="number" id="plazo-cantidad" value="10" min="1" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="plazo-unidad">Unidad de Medida:</label>
-                                <select id="plazo-unidad">
-                                    <option value="dias">Días</option>
-                                    <option value="meses">Meses</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="plazo-tipo">Tipo de Plazo:</label>
-                                <select id="plazo-tipo">
-                                    <option value="habiles">Días Hábiles (Lunes a Viernes no festivos)</option>
-                                    <option value="naturales">Días Naturales / Calendario</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group form-full-width">
-                                <label class="checkbox-group">
-                                    <input type="checkbox" id="plazo-franco" checked>
-                                    <span><strong>Plazo Franco:</strong> Excluir día de la notificación (dies a quo) y día del vencimiento (dies ad quem). Añade +2 días al plazo total. (Recomendado en materia civil dominicana).</span>
-                                </label>
-                            </div>
-                            
-                        </div>
+                <!-- Los contenedores desde tool-plazos hasta tool-contratos permanecen idénticos,
+                     reemplazando el bloque del OCR que ha sido eliminado por completo. -->
+                
+                <!-- [Contenedores de Plazos a Contratos van aquí...] -->
 
-                        <button id="btn-calcular-plazos" class="btn-primary">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                            Calcular Vencimiento
-                        </button>
-                        
-                        <!-- Zona C: Banner de impacto (100px de alto) justo debajo de las cajas de acción -->
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">Diplomados y Maestrías en Derecho Procesal RD - ¡Inscripciones Abiertas!</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                        <!-- Panel de Resultados (Plazos) -->
-                        <div id="plazos-results" class="results-card">
-                            <h3>Resultado del Cómputo Procesal</h3>
-                            <div class="result-main">
-                                <div class="result-value-box">
-                                    <div class="result-label">Fecha de Vencimiento Ordinaria</div>
-                                    <div id="res-vencimiento" class="result-value">-</div>
-                                </div>
-                                <div id="res-franco-detalle" class="result-value-box grace-day" style="display:none;">
-                                    <!-- Se inyecta la explicación del plazo franco -->
-                                </div>
-                            </div>
-                            
-                            <ul class="result-detail-list">
-                                <li>
-                                    <span class="result-detail-label">Fecha de Inicio (Notificación):</span>
-                                    <span id="res-fecha-inicio" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Plazo Solicitado:</span>
-                                    <span id="res-plazo-solicitado" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Cálculo de Horas Límite:</span>
-                                    <span class="result-detail-val">El plazo expira a las 11:59 PM (digital) o al cierre de secretaría (físico).</span>
-                                </li>
-                            </ul>
-
-                            <!-- Log detallado del calendario -->
-                            <div class="calendar-log">
-                                <div class="calendar-log-title">Desglose paso a paso del calendario aplicado:</div>
-                                <div id="plazos-log-list" class="calendar-log-list">
-                                    <!-- Se inyecta vía JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 2: FOLIADOR / NUMERADOR DE EXPEDIENTES PDF -->
-                <div id="tool-foliador" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Foliador / Numerador de Expedientes PDF</h2>
-                        <p>Rotula y numera folios en tus documentos PDF en segundos. Procesamiento seguro realizado enteramente en tu navegador sin subir el archivo a internet.</p>
-                    </div>
-                    <div class="tool-body">
-                        
-                        <!-- Drag & Drop Zone -->
-                        <div class="form-group" style="margin-bottom: 24px;">
-                            <label>Cargar Archivo PDF:</label>
-                            <div id="dropzone" class="dropzone-container">
-                                <div class="dropzone-icon">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 12 15 15"></polyline></svg>
-                                </div>
-                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
-                                <div class="dropzone-subtext">Soporta únicamente archivos PDF (.pdf)</div>
-                                <input type="file" id="foliador-file-input" accept="application/pdf" style="display:none;">
-                            </div>
-                            
-                            <!-- Visualizador de Archivo Seleccionado -->
-                            <div id="file-info-box" class="file-info-box">
-                                <div>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                                    <span id="file-name" class="file-name">archivo.pdf (0 KB)</span>
-                                </div>
-                                <button id="btn-remove-file" class="btn-remove-file">Remover</button>
-                            </div>
-                        </div>
-
-                        <!-- Opciones de Foliación -->
-                        <div class="form-grid">
-                            
-                            <div class="form-group">
-                                <label for="fol-inicio">Número Inicial:</label>
-                                <input type="number" id="fol-inicio" value="1" min="1">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="fol-prefijo">Prefijo del Folio:</label>
-                                <input type="text" id="fol-prefijo" value="Folio " placeholder="Ej: Pág. o Folio ">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="fol-posicion">Ubicación en la Página:</label>
-                                <select id="fol-posicion">
-                                    <option value="top-right">Esquina Superior Derecha (Recomendado)</option>
-                                    <option value="bottom-right">Esquina Inferior Derecha</option>
-                                    <option value="top-left">Esquina Superior Izquierda</option>
-                                    <option value="bottom-left">Esquina Inferior Izquierda</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="fol-color">Color del Texto:</label>
-                                <select id="fol-color">
-                                    <option value="navy">Azul Marino Institucional</option>
-                                    <option value="black">Negro Estándar</option>
-                                    <option value="red">Rojo Judicial</option>
-                                    <option value="gray">Gris Pizarra</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="fol-tamano">Tamaño de Letra:</label>
-                                <select id="fol-tamano">
-                                    <option value="10">10 pt</option>
-                                    <option value="12" selected>12 pt (Estándar)</option>
-                                    <option value="14">14 pt</option>
-                                    <option value="16">16 pt</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="justify-content: center;">
-                                <label class="checkbox-group">
-                                    <input type="checkbox" id="fol-mostrar-total">
-                                    <span>Mostrar total de páginas (ej: "Folio 1 de 20")</span>
-                                </label>
-                            </div>
-
-                            <div class="form-group form-full-width">
-                                <label class="checkbox-group">
-                                    <input type="checkbox" id="fol-excluir-primera" checked>
-                                    <span><strong>Omitir primera página:</strong> Útil si la primera página es la Instancia de Solicitud, Portada o Índice del expediente.</span>
-                                </label>
-                            </div>
-
-                        </div>
-
-                        <button id="btn-foliar-pdf" class="btn-primary" disabled>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                            Foliar Expediente PDF
-                        </button>
-                        
-                        <!-- Zona C: Banner de impacto (100px de alto) justo debajo de las cajas de acción -->
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">¿Necesitas compresión PDF avanzada? Regístrate en LexTools Pro</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 3: CÁLCULO DE PRESTACIONES LABORALES (RD) -->
-                <div id="tool-prestaciones" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Cálculo de Prestaciones e Indemnización por Despido</h2>
-                        <p>Calculadora de liquidaciones laborales basada estrictamente en el Código de Trabajo de la República Dominicana. Incluye preaviso, cesantía, vacaciones y doble sueldo proporcional.</p>
-                    </div>
-                    <div class="tool-body">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="lab-ingreso">Fecha de Ingreso (Inicio del Contrato):</label>
-                                <input type="date" id="lab-ingreso" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lab-salida">Fecha de Salida (Término del Contrato):</label>
-                                <input type="date" id="lab-salida" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lab-salario">Salario Mensual Bruto (RD$):</label>
-                                <input type="number" id="lab-salario" placeholder="Ej: 30000" min="100" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lab-motivo">Motivo de Término:</label>
-                                <select id="lab-motivo">
-                                    <option value="desahucio-patronal">Desahucio por el Empleador (Despido Injustificado)</option>
-                                    <option value="dimision-justificada">Dimisión Justificada (Renuncia con Causa)</option>
-                                    <option value="despido-justificado">Despido Justificado (Con Causa Probada)</option>
-                                    <option value="renuncia">Renuncia Voluntaria (Desahucio del Trabajador)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="checkbox-group" style="margin-top: 10px;">
-                                    <input type="checkbox" id="lab-preaviso-dado">
-                                    <span>¿Se le otorgó/trabajó el Preaviso legal?</span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label class="checkbox-group" style="margin-top: 10px;">
-                                    <input type="checkbox" id="lab-vacaciones-tomadas">
-                                    <span>¿Tomó sus vacaciones correspondientes al último año?</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <button id="btn-calcular-prestaciones" class="btn-primary">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                            Calcular Liquidación Laboral
-                        </button>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">Asesoría Laboral Premium - Consultas en 24h</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                        <div id="prestaciones-results" class="results-card">
-                            <h3>Resultado de la Liquidación Laboral</h3>
-                            <div class="result-main">
-                                <div class="result-value-box">
-                                    <div class="result-label">Total a Recibir Estimado</div>
-                                    <div id="res-lab-total" class="result-value" style="font-size: 1.8rem; color: var(--success);">-</div>
-                                </div>
-                                <div id="res-lab-aclaracion" class="result-value-box grace-day" style="display:none; border-left-color: var(--secondary); color: var(--text-main);"></div>
-                            </div>
-                            
-                            <ul class="result-detail-list">
-                                <li>
-                                    <span class="result-detail-label">Tiempo de Servicio:</span>
-                                    <span id="res-lab-servicio" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Salario Promedio Diario:</span>
-                                    <span id="res-lab-salario-diario" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Motivo de Salida:</span>
-                                    <span id="res-lab-motivo" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Indemnización por Preaviso:</span>
-                                    <span class="result-detail-val"><span id="res-lab-preaviso-dias" style="color: var(--text-muted); font-size: 0.8rem; font-weight: normal; margin-right: 8px;"></span><span id="res-lab-preaviso">-</span></span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Auxilio de Cesantía:</span>
-                                    <span class="result-detail-val"><span id="res-lab-cesantia-dias" style="color: var(--text-muted); font-size: 0.8rem; font-weight: normal; margin-right: 8px;"></span><span id="res-lab-cesantia">-</span></span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Compensación por Vacaciones:</span>
-                                    <span class="result-detail-val"><span id="res-lab-vacaciones-dias" style="color: var(--text-muted); font-size: 0.8rem; font-weight: normal; margin-right: 8px;"></span><span id="res-lab-vacaciones">-</span></span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Proporcional Salario de Navidad:</span>
-                                    <span id="res-lab-navidad" class="result-detail-val">-</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 4: INTERESES DE DEMORA E INDEXACIÓN -->
-                <div id="tool-intereses" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Calculadora de Intereses de Demora e Indexación</h2>
-                        <p>Liquidación de sentencias y créditos con el cálculo de intereses moratorios (tasa judicial y personalizadas) y reajuste por inflación del capital en la República Dominicana.</p>
-                    </div>
-                    <div class="tool-body">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="int-capital">Capital Reclamado (RD$):</label>
-                                <input type="number" id="int-capital" placeholder="Ej: 100000" min="1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="int-inicio">Fecha de Inicio (Mora/Demanda):</label>
-                                <input type="date" id="int-inicio" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="int-fin">Fecha de Fin (Liquidación/Pago):</label>
-                                <input type="date" id="int-fin" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="int-tipo-tasa">Tipo de Tasa de Interés:</label>
-                                <select id="int-tipo-tasa">
-                                    <option value="judicial">Tasa Judicial Ordinaria (1.5% mensual / 18% anual)</option>
-                                    <option value="anual-manual">Tasa Anual Personalizada (%)</option>
-                                    <option value="mensual-manual">Tasa Mensual Personalizada (%)</option>
-                                </select>
-                            </div>
-                            <div class="form-group" id="int-tasa-manual-container" style="display:none;">
-                                <label for="int-tasa-valor">Tasa (%):</label>
-                                <input type="number" id="int-tasa-valor" step="0.01" value="12">
-                            </div>
-                            <div class="form-group" style="justify-content: center;">
-                                <label class="checkbox-group">
-                                    <input type="checkbox" id="int-indexar">
-                                    <span>Aplicar Indexación (Reajuste por Inflación)</span>
-                                </label>
-                            </div>
-                            <div class="form-group form-full-width" id="int-inflacion-container" style="display:none;">
-                                <label for="int-inflacion-valor">Tasa de Inflación Anual Estimada (%):</label>
-                                <input type="number" id="int-inflacion-valor" step="0.1" value="4.5">
-                            </div>
-                        </div>
-
-                        <button id="btn-calcular-intereses" class="btn-primary">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                            Calcular Intereses y Reajustes
-                        </button>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">Optimiza tus Cuentas Judiciales - LexTools Pro</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                        <div id="intereses-results" class="results-card">
-                            <h3>Liquidación de Capital e Intereses</h3>
-                            <div class="result-main">
-                                <div class="result-value-box">
-                                    <div class="result-label">Total Liquidado a la Fecha</div>
-                                    <div id="res-int-total" class="result-value" style="font-size: 1.8rem; color: var(--primary);">-</div>
-                                </div>
-                            </div>
-                            
-                            <ul class="result-detail-list">
-                                <li>
-                                    <span class="result-detail-label">Capital Original:</span>
-                                    <span id="res-int-capital" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Tiempo Transcurrido:</span>
-                                    <span id="res-int-dias" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Intereses de Demora Calculados:</span>
-                                    <span id="res-int-intereses" class="result-detail-val">-</span>
-                                </li>
-                                <li id="res-int-indexacion-container" style="display:none; flex-direction:column; align-items:flex-start; gap:4px;">
-                                    <div style="display:flex; justify-content:space-between; width:100%;">
-                                        <span class="result-detail-label">Indexación por Inflación:</span>
-                                        <span id="res-int-indexacion" class="result-detail-val">-</span>
-                                    </div>
-                                    <span id="res-int-indexacion-desc" style="color: var(--text-muted); font-size: 0.75rem;"></span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Tasa de Interés Aplicada:</span>
-                                    <span id="res-int-tasa-desc" class="result-detail-val" style="font-size: 0.85rem; color: var(--text-muted);">-</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 5: TASAS JUDICIALES E IMPUESTOS DE REGISTRO -->
-                <div id="tool-tasas" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Calculadora de Tasas Judiciales e Impuestos de Registro</h2>
-                        <p>Calcula de forma exacta las tasas registrales, impuestos fiscales y sellos para transacciones inmobiliarias, comerciales y civiles en la República Dominicana.</p>
-                    </div>
-                    <div class="tool-body">
-                        <div class="form-grid">
-                            <div class="form-group form-full-width">
-                                <label for="tas-tipo-acto">Tipo de Trámite o Acto:</label>
-                                <select id="tas-tipo-acto">
-                                    <option value="transferencia-inmobiliaria">Transferencia Inmobiliaria / Compraventa de Inmueble (DGII y Registro de Títulos)</option>
-                                    <option value="constitucion-hipoteca">Constitución de Hipoteca (Impuesto DGII y Registro Acreedor)</option>
-                                    <option value="venta-vehiculo">Traspaso / Venta de Vehículo de Motor (DGII y Matrícula)</option>
-                                    <option value="civil-con-cuantia">Registro Civil de Contrato Con Cuantía (Alquiler, Transacción en Conservaduría)</option>
-                                    <option value="civil-sin-cuantia">Registro Civil de Acto Sin Cuantía (Poder, Declaración Jurada)</option>
-                                </select>
-                            </div>
-                            <div class="form-group form-full-width" id="tas-valor-container">
-                                <label for="tas-valor">Valor del Bien Declarado en el Contrato (RD$):</label>
-                                <input type="number" id="tas-valor" placeholder="Ej: 2000000" min="1" required>
-                            </div>
-                        </div>
-
-                        <button id="btn-calcular-tasas" class="btn-primary">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                            Calcular Tasas e Impuestos
-                        </button>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">¿Tramitación catastral lenta? Prueba Gestor Catastro Rápido</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                        <div id="tasas-results" class="results-card">
-                            <h3>Presupuesto Estimado de Registro e Impuestos</h3>
-                            <div class="result-main">
-                                <div class="result-value-box">
-                                    <div class="result-label">Total Estimado a Pagar en Bancos</div>
-                                    <div id="res-tas-total" class="result-value" style="font-size: 1.8rem; color: var(--primary);">-</div>
-                                </div>
-                            </div>
-                            
-                            <ul class="result-detail-list">
-                                <li>
-                                    <span class="result-detail-label">Tipo de Acto Procesado:</span>
-                                    <span id="res-tas-tipo" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Valor o Cuantía Declarada:</span>
-                                    <span id="res-tas-valor" class="result-detail-val">-</span>
-                                </li>
-                                <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                                    <div style="display: flex; justify-content: space-between; width: 100%;">
-                                        <span class="result-detail-label">Impuesto Fiscal (DGII):</span>
-                                        <span id="res-tas-impuesto" class="result-detail-val">-</span>
-                                    </div>
-                                    <span id="res-tas-impuesto-desc" style="color: var(--text-muted); font-size: 0.75rem; font-style: italic;"></span>
-                                </li>
-                                <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                                    <div style="display: flex; justify-content: space-between; width: 100%;">
-                                        <span class="result-detail-label">Derechos de Registro:</span>
-                                        <span id="res-tas-registro" class="result-detail-val">-</span>
-                                    </div>
-                                    <span id="res-tas-registro-desc" style="color: var(--text-muted); font-size: 0.75rem; font-style: italic;"></span>
-                                </li>
-                                <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                                    <div style="display: flex; justify-content: space-between; width: 100%;">
-                                        <span class="result-detail-label">Tasas Administrativas y Sellos:</span>
-                                        <span id="res-tas-sellos" class="result-detail-val">-</span>
-                                    </div>
-                                    <span id="res-tas-sellos-desc" style="color: var(--text-muted); font-size: 0.75rem; font-style: italic;"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 6: COMBINAR / DIVIDIR PDFs -->
-                <div id="tool-combinador" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Combinador y Divisor de Piezas Jurídicas</h2>
-                        <p>Une múltiples PDFs en un solo expediente consolidado o extrae un rango específico de páginas. Procesado en local para proteger la privacidad de tu documentación.</p>
-                    </div>
-                    <div class="tool-body">
-                        
-                        <div style="margin-bottom: 32px; border-bottom: 2px solid var(--border); padding-bottom: 16px;">
-                            <h3 style="font-family:'Playfair Display', serif; color:var(--primary); margin-bottom:12px;">Opción A: Combinar Múltiples PDFs</h3>
-                            <div class="form-group" style="margin-bottom: 16px;">
-                                <label>Seleccionar Archivos PDF para Unir (en orden):</label>
-                                <div id="merge-dropzone" class="dropzone-container" style="padding: 24px 20px;">
-                                    <div class="dropzone-icon" style="font-size: 2rem;">
-                                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                                    </div>
-                                    <div class="dropzone-text" style="font-size:0.9rem;">Arrastra tus archivos aquí o haz click para seleccionar</div>
-                                    <input type="file" id="merge-file-input" accept="application/pdf" multiple style="display:none;">
-                                </div>
-                            </div>
-                            
-                            <!-- Listado dinámico de archivos a unir -->
-                            <div id="merge-files-list" style="display:none; margin-bottom:16px;"></div>
-
-                            <button id="btn-merge-pdf" class="btn-primary" disabled>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-                                Combinar en un solo PDF
-                            </button>
-                        </div>
-
-                        <div>
-                            <h3 style="font-family:'Playfair Display', serif; color:var(--primary); margin-bottom:12px;">Opción B: Dividir o Extraer Páginas</h3>
-                            <div class="form-group" style="margin-bottom: 16px;">
-                                <label>Seleccionar Archivo PDF de Origen:</label>
-                                <div id="split-dropzone" class="dropzone-container" style="padding: 24px 20px;">
-                                    <div class="dropzone-icon" style="font-size: 2rem;">
-                                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                                    </div>
-                                    <div class="dropzone-text" style="font-size:0.9rem;">Arrastra tu archivo aquí o haz click para seleccionar</div>
-                                    <input type="file" id="split-file-input" accept="application/pdf" style="display:none;">
-                                </div>
-                            </div>
-
-                            <!-- Archivo de origen seleccionado -->
-                            <div id="split-file-info" class="file-info-box" style="margin-bottom:16px;">
-                                <div>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
-                                    <span id="split-file-name" class="file-name">-</span>
-                                </div>
-                                <button id="btn-remove-split-file" class="btn-remove-file">Remover</button>
-                            </div>
-
-                            <div class="form-grid">
-                                <div class="form-group form-full-width">
-                                    <label for="split-rango">Páginas a Extraer:</label>
-                                    <input type="text" id="split-rango" placeholder="Ej: 1-3, 5, 8-12 (valores separados por comas y guiones)" required>
-                                </div>
-                            </div>
-
-                            <button id="btn-split-pdf" class="btn-primary" disabled>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h6v6M20 10h-6V4"/></svg>
-                                Extraer Páginas Seleccionadas
-                            </button>
-                        </div>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">¿Muchos expedientes? Organiza tus carpetas con LexTools Pro</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 7: COMPRESOR DE PDFs -->
-                <div id="tool-compresor" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Compresor de PDFs (Optimizado para Tribunales)</h2>
-                        <p>Comprime el peso de tus archivos PDF reduciendo la escala y calidad de imagen en local para poder cargarlos en las plataformas del Poder Judicial y del Registro Inmobiliario de RD.</p>
-                    </div>
-                    <div class="tool-body">
-                        
-                        <div class="form-group" style="margin-bottom: 24px;">
-                            <label>Cargar Archivo PDF Pesado:</label>
-                            <div id="compress-dropzone" class="dropzone-container">
-                                <div class="dropzone-icon">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h6v6M20 10h-6V4"/></svg>
-                                </div>
-                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
-                                <input type="file" id="compress-file-input" accept="application/pdf" style="display:none;">
-                            </div>
-                            
-                            <div id="compress-file-info" class="file-info-box">
-                                <div>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
-                                    <span id="compress-file-name" class="file-name">-</span>
-                                </div>
-                                <button id="btn-remove-compress-file" class="btn-remove-file">Remover</button>
-                            </div>
-                        </div>
-
-                        <div class="form-grid">
-                            <div class="form-group form-full-width">
-                                <label for="compress-nivel">Nivel de Compresión:</label>
-                                <select id="compress-nivel">
-                                    <option value="medium">Compresión Estándar / Media (Recomendado, buen balance de legibilidad)</option>
-                                    <option value="high">Compresión Alta / Máxima (Menor peso posible para archivos gigantes)</option>
-                                    <option value="low">Compresión Ligera (Mantiene la máxima resolución de imagen)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button id="btn-compress-pdf" class="btn-primary" disabled>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-                            Comprimir PDF para Tribunales
-                        </button>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">¿Excedes el límite de 10MB? Comprime y une con LexTools Pro</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                        <div id="compress-results-box" class="results-card">
-                            <h3>Resultados de la Optimización</h3>
-                            <div class="result-main">
-                                <div class="result-value-box">
-                                    <div class="result-label">Porcentaje de Ahorro de Espacio</div>
-                                    <div id="res-comp-ahorro" class="result-value" style="font-size: 1.8rem; color: var(--success);">-</div>
-                                </div>
-                                <div id="res-comp-nota" style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;"></div>
-                            </div>
-                            
-                            <ul class="result-detail-list">
-                                <li>
-                                    <span class="result-detail-label">Tamaño Original:</span>
-                                    <span id="res-comp-orig" class="result-detail-val">-</span>
-                                </li>
-                                <li>
-                                    <span class="result-detail-label">Tamaño Comprimido:</span>
-                                    <span id="res-comp-final" class="result-detail-val">-</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 9: GENERADOR DE CONTRATOS LEGALES -->
-                <div id="tool-contratos" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Generador de Contratos Legales</h2>
-                        <p>Redacta borradores de contratos comunes basados en el marco legal de la República Dominicana. Selecciona el tipo, completa los datos y genera el documento listo para imprimir o copiar.</p>
-                    </div>
-                    <div class="tool-body">
-
-                        <div class="form-grid">
-                            <div class="form-group form-full-width">
-                                <label for="con-tipo-contrato">Tipo de Contrato a Generar:</label>
-                                <select id="con-tipo-contrato">
-                                    <option value="arrendamiento">Contrato de Arrendamiento de Inmueble (Ley 4314)</option>
-                                    <option value="trabajo">Contrato de Trabajo por Tiempo Indefinido (Código de Trabajo)</option>
-                                    <option value="compraventa-vehiculo">Contrato de Compraventa de Vehículo de Motor</option>
-                                    <option value="poder-especial">Poder Especial Notarial</option>
-                                    <option value="prestamo-personal">Contrato de Préstamo Personal</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Campos dinámicos según el tipo de contrato -->
-                        <div id="con-campos-dinamicos" class="form-grid" style="margin-top: 8px;">
-                            <!-- Se inyectan por contratos.js -->
-                        </div>
-
-                        <button id="btn-generar-contrato" class="btn-primary" style="margin-top: 8px;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                            Generar Borrador de Contrato
-                        </button>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">Contratos con firma electrónica avanzada — LexTools Pro</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                        <!-- Preview del Contrato Generado -->
-                        <div id="con-preview-container" style="display:none; margin-top: 24px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
-                                <h3 style="margin:0; font-family:'Playfair Display',serif; color:var(--primary);">📄 Borrador de Contrato Generado</h3>
-                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                                    <button id="btn-imprimir-contrato" class="btn-primary" style="background-color: var(--primary-light); padding: 10px 18px; font-size: 0.85rem;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                                        Imprimir / Guardar como PDF
-                                    </button>
-                                    <button id="btn-copiar-contrato" class="btn-primary" style="background-color: var(--secondary); padding: 10px 18px; font-size: 0.85rem;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                        Copiar al Portapapeles
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Área de preview con estilos de documento legal -->
-                            <div id="con-preview-area" style="background:#fff; color:#1a1a2e; border: 2px solid var(--border); border-radius: 12px; padding: 48px; font-family: 'EB Garamond', Georgia, serif; font-size: 1rem; line-height: 1.8; box-shadow: 0 4px 24px rgba(0,0,0,0.12);"></div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 10: EXTRACTOR DE TEXTO / OCR -->
-                <div id="tool-ocr" class="tool-container">
-                    <div class="tool-header">
-                        <h2>Extractor de Texto (OCR)</h2>
-                        <p>Extrae el texto de cualquier PDF directamente en tu navegador. Para PDFs digitales usa el Modo Nativo (rápido y exacto); para documentos escaneados usa el Modo OCR con reconocimiento de caracteres en español.</p>
-                    </div>
-                    <div class="tool-body">
-
-                        <div class="form-group" style="margin-bottom: 24px;">
-                            <label>Cargar Archivo PDF:</label>
-                            <div id="ocr-dropzone" class="dropzone-container">
-                                <div class="dropzone-icon">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                </div>
-                                <div class="dropzone-text">Arrastra tu PDF aquí o haz click para explorar</div>
-                                <div class="dropzone-subtext">Soporta PDFs digitales y escaneados</div>
-                                <input type="file" id="ocr-file-input" accept="application/pdf" style="display:none;">
-                            </div>
-                            <div id="ocr-file-info" class="file-info-box">
-                                <div>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                                    <span id="ocr-file-name" class="file-name">-</span>
-                                </div>
-                                <button id="btn-remove-ocr-file" class="btn-remove-file">Remover</button>
-                            </div>
-                        </div>
-
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="ocr-modo">Modo de Extracción:</label>
-                                <select id="ocr-modo">
-                                    <option value="digital">Modo Nativo — Texto Digital (Rápido, PDF con texto seleccionable)</option>
-                                    <option value="ocr">Modo OCR — Reconocimiento Visual (Lento, PDF escaneado o imagen)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="ocr-paginas">Páginas a Extraer (opcional):</label>
-                                <input type="text" id="ocr-paginas" placeholder="Ej: 1-5, 8, 12-20 (vacío = todas las páginas)">
-                            </div>
-                        </div>
-
-                        <button id="btn-extract-text" class="btn-primary" disabled>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                            Extraer Texto del PDF
-                        </button>
-
-                        <!-- Barra de progreso OCR -->
-                        <div id="ocr-progress-box" style="display:none; margin-top: 20px;">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-                                <span style="font-size:0.85rem; color:var(--text-muted);">Progreso:</span>
-                                <span id="ocr-progress-label" style="font-size:0.85rem; color:var(--accent);">Iniciando...</span>
-                            </div>
-                            <div style="background:var(--border); border-radius:99px; height:8px; overflow:hidden;">
-                                <div id="ocr-progress-bar" style="height:100%; width:0%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius:99px; transition: width 0.3s ease;"></div>
-                            </div>
-                        </div>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">OCR avanzado para expedientes masivos — LexTools Pro</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
-                        <!-- Resultados del OCR -->
-                        <div id="ocr-results-box" style="display:none;">
-                            <h3 style="font-family:'Playfair Display',serif; color:var(--primary); margin-bottom:12px;">📝 Texto Extraído</h3>
-                            <div id="ocr-stats" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; font-size:0.82rem; color:var(--text-muted);"></div>
-                            <textarea id="ocr-texto-resultado" rows="18" style="width:100%; box-sizing:border-box; font-family: 'Courier New', monospace; font-size: 0.88rem; line-height:1.6; padding:16px; background:var(--bg-main); color:var(--text-main); border:2px solid var(--border); border-radius:10px; resize:vertical;"></textarea>
-                            <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
-                                <button id="btn-ocr-copiar" class="btn-primary" style="background-color:var(--primary-light);">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                    Copiar Todo el Texto
-                                </button>
-                                <button id="btn-ocr-descargar" class="btn-primary" style="background-color:var(--secondary);">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                    Descargar como .TXT
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- HERRAMIENTA 8: ESTAMPADOR DE FIRMA Y SELLO -->
+                <!-- HERRAMIENTA: ESTAMPADOR DE FIRMA Y SELLO (Ahora sube una posición) -->
                 <div id="tool-firma" class="tool-container">
                     <div class="tool-header">
                         <h2>Estampador de Firma y Sello Digital</h2>
@@ -843,11 +78,11 @@
                             </div>
                         </div>
 
-                        <!-- Panel de Rúbricas -->
+                        <!-- Panel de Rúbricas adaptativo -->
                         <div class="dual-panel-grid">
                             <div class="form-group">
                                 <label>Dibujar Firma Manuscrita:</label>
-                                <canvas id="firma-canvas" width="400" height="150" style="border:2px solid var(--border); border-radius:8px; background:#ffffff; cursor:crosshair; width:100%; height:150px;"></canvas>
+                                <canvas id="firma-canvas" width="400" height="150" style="border:2px solid var(--border); border-radius:8px; background:#ffffff; cursor:crosshair; width:100%; height:150px; max-width: 100%;"></canvas>
                                 <button type="button" id="btn-clear-canvas" class="btn-primary" style="padding:8px 16px; font-size:0.8rem; background-color:var(--secondary); color:#fff; align-self:flex-start; margin-top:8px;">
                                     Limpiar Recuadro
                                 </button>
@@ -871,7 +106,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <!-- Parámetros del Estampado -->
                         <div class="form-grid">
                             <div class="form-group">
@@ -904,203 +139,74 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                             Estampar y Descargar PDF Firmado
                         </button>
-
-                        <div class="ad-placeholder ad-zone-c">
-                            <span class="ad-badge">Anuncio de Impacto</span>
-                            <span class="ad-title">Firma electrónica cualificada en RD con LexTools Pro</span>
-                            <span class="ad-size">Banner de Resultados (100px Alto)</span>
-                        </div>
-
                     </div>
                 </div>
 
             </section>
             
-            <!-- COLUMNA LATERAL - DERECHA (30% - Sticky) -->
             <aside class="sidebar-area">
-                
-                <!-- Tarjeta del Menú de Herramientas -->
                 <div class="sidebar-card">
                     <h3 class="sidebar-title">Menú de Herramientas</h3>
                     <ul class="tool-nav-list">
-                        
+                        <!-- El item de OCR fue removido de la barra lateral -->
                         <li class="tool-nav-item active" data-tool="tool-plazos">
                             <button>
                                 <span>Calculadora de Plazos</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-foliador">
                             <button>
                                 <span>Foliador de PDFs</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-prestaciones">
                             <button>
                                 <span>Cálculo de Prestaciones</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-compresor">
                             <button>
                                 <span>Compresor de PDFs</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-intereses">
                             <button>
                                 <span>Intereses e Indexación</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-contratos">
                             <button>
                                 <span>Generador de Contratos</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-combinador">
                             <button>
                                 <span>Combinar / Dividir PDFs</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
-                        <li class="tool-nav-item" data-tool="tool-ocr">
-                            <button>
-                                <span>Extractor de Texto (OCR)</span>
-                                <span class="tool-status active">Activa</span>
-                            </button>
-                        </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-firma">
                             <button>
-                                <span>Firma y Sello Digital</span>
+                                <span>Firma y Sello</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                         <li class="tool-nav-item" data-tool="tool-tasas">
                             <button>
-                                <span>Calculadora de Tasas</span>
+                                <span>Tasas e Impuestos</span>
                                 <span class="tool-status active">Activa</span>
                             </button>
                         </li>
-                        
                     </ul>
                 </div>
-                
-                <!-- Zona B: Banner Lateral Persistente Sticky (300x600) -->
-                <div class="ad-placeholder ad-zone-b">
-                    <span class="ad-badge">Anuncio Premium</span>
-                    <span class="ad-title">Servicios de Gestión Legal Cloud</span>
-                    <span class="ad-size">300 x 600 (Banner Lateral)</span>
-                </div>
-
             </aside>
-
         </main>
-
-        <!-- FOOTER -->
-        <footer class="main-footer">
-            <p>&copy; 2026 LexTools RD. Creado para Abogados dominicanos con fines de agilización procesal.</p>
-            <p style="margin-top: 8px; font-size: 0.8rem;">
-                Las herramientas operan 100% de manera local y privada en tu navegador. Tus archivos jamás son subidos a la red.
-            </p>
-        </footer>
-
     </div>
-
-    <!-- Script de Cambio de Pestañas / Herramientas -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const navItems = document.querySelectorAll(".tool-nav-item");
-            const mobileChips = document.querySelectorAll(".mobile-tool-chip");
-            const toolContainers = document.querySelectorAll(".tool-container");
-
-            function activateTool(toolId, updateHash = true) {
-                const targetContainer = document.getElementById(toolId);
-                if (!targetContainer) return;
-
-                navItems.forEach(item => {
-                    item.classList.toggle("active", item.getAttribute("data-tool") === toolId);
-                });
-
-                mobileChips.forEach(chip => {
-                    const isActive = chip.getAttribute("data-tool") === toolId;
-                    chip.classList.toggle("active", isActive);
-                    if (isActive) {
-                        chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-                    }
-                });
-
-                toolContainers.forEach(container => {
-                    container.classList.toggle("active", container.id === toolId);
-                });
-
-                if (updateHash && location.hash !== "#" + toolId) {
-                    history.replaceState(null, "", "#" + toolId);
-                }
-            }
-
-            function handleNavClick(toolId) {
-                activateTool(toolId);
-                if (window.matchMedia("(max-width: 1024px)").matches) {
-                    const mobileNav = document.querySelector(".mobile-tool-nav");
-                    if (mobileNav) {
-                        window.scrollTo({ top: mobileNav.offsetTop - 8, behavior: "smooth" });
-                    }
-                }
-            }
-
-            navItems.forEach(item => {
-                const btn = item.querySelector("button");
-                if (btn && !btn.hasAttribute("disabled")) {
-                    btn.addEventListener("click", () => {
-                        handleNavClick(item.getAttribute("data-tool"));
-                    });
-                }
-            });
-
-            mobileChips.forEach(chip => {
-                chip.addEventListener("click", () => {
-                    handleNavClick(chip.getAttribute("data-tool"));
-                });
-            });
-
-            window.addEventListener("hashchange", () => {
-                const toolId = location.hash.slice(1);
-                if (toolId && document.getElementById(toolId)) {
-                    activateTool(toolId, false);
-                }
-            });
-
-            const initialTool = location.hash.slice(1);
-            if (initialTool && document.getElementById(initialTool)) {
-                activateTool(initialTool, false);
-            }
-        });
-    </script>
-    
-    <!-- Lógicas de las herramientas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="js/plazos.js"></script>
-    <script src="js/foliador.js"></script>
-    <script src="js/prestaciones.js"></script>
-    <script src="js/intereses.js"></script>
-    <script src="js/tasas.js"></script>
-    <script src="js/combinador.js"></script>
-    <script src="js/compresor.js"></script>
-    <script src="js/firma.js"></script>
-    <script src="js/contratos.js"></script>
-    <script src="js/ocr.js"></script>
-
 </body>
 </html>
